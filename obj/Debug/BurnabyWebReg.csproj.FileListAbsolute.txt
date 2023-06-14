@@ -1,0 +1,15 @@
+D:\Program\JamesProject\BurnabyWebReg\bin\Debug\BurnabyWebReg.exe.config
+D:\Program\JamesProject\BurnabyWebReg\bin\Debug\BurnabyWebReg.exe
+D:\Program\JamesProject\BurnabyWebReg\bin\Debug\BurnabyWebReg.pdb
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.csproj.AssemblyReference.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form1.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form2.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Properties.Resources.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.csproj.GenerateResource.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.csproj.CoreCompileInputs.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.exe
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.pdb
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form3.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form4.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form5.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Debug\BurnabyWebReg.Form6.resources

@@ -1,0 +1,15 @@
+D:\Program\JamesProject\BurnabyWebReg\bin\Release\BurnabyWebReg.exe.config
+D:\Program\JamesProject\BurnabyWebReg\bin\Release\BurnabyWebReg.exe
+D:\Program\JamesProject\BurnabyWebReg\bin\Release\BurnabyWebReg.pdb
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.csproj.AssemblyReference.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form1.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form2.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form3.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form4.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form5.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Form6.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.Properties.Resources.resources
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.csproj.GenerateResource.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.csproj.CoreCompileInputs.cache
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.exe
+D:\Program\JamesProject\BurnabyWebReg\obj\Release\BurnabyWebReg.pdb
