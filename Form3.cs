@@ -19,12 +19,12 @@ namespace BurnabyWebReg
             InitializeComponent();
         }
 
-        // 바코드검색후 뜨는 폼
+        // Form that appears after bar code search
         // Course Details
-        // Barcode Search 바코드로 검색할때는 바로 Course Details 화면이 뜬다.
+        // Barcode Search - When searching by barcode, the Course Details screen appears immediately.
 
 
-        Thread workerThread1; // 스레드  
+        Thread workerThread1;  
         
         CommonClass cc = new CommonClass(); // common class
         Strings st = new Strings(); // all string variable
@@ -33,7 +33,7 @@ namespace BurnabyWebReg
 
 
 
-        // Form1에서부터 값을 받는 메소드
+        // Method for receiving values from Form1
         public void GetDataFromForm(string barcode)
         {            
             st.Barcode = barcode;
@@ -76,24 +76,23 @@ namespace BurnabyWebReg
                     st.Cid = cc.getBetween(activityCourseRow, "cid=", "\"");
                 }
 
-                // Add, Waitlist 있는지 확인
+                // Check if "Add, Waitlist" is present
                 st.AddCourse = cc.getBetween(st.Result, "AddCourse=", "a>");
                 st.AddCourse = cc.getBetween(st.AddCourse, ">", "</");
-                st.AddCourse = cc.remove_html_tag(st.AddCourse);               
+                st.AddCourse = cc.remove_html_tag(st.AddCourse);
 
-                // 필요한 부분만 가져옴
+                // split only the required parts
                 st.Result = Regex.Split(st.Result, "class=\"ajax-return\">")[1];
 
-                // 이미지태그 전체주소추가
+                // Add Image Tag Full Address
                 st.Result = st.Result.Replace("src=\"/webreg", "src=\"https://webreg.burnaby.ca/webreg");
                 // Remove Anchor tag
                 string anchorTag = "<a" + cc.getBetween(st.Result, "<a", "</a>") + "</a>";
-                st.Result = st.Result.Replace(anchorTag, "");                
+                st.Result = st.Result.Replace(anchorTag, "");
 
-                // 웹브라우저에 표시
+                // Displaying in a Web browser
                 webBrowser1.DocumentText = st.Result;
-
-                //크로스스레드방지
+              
                 this.Invoke(new MethodInvoker(delegate ()
                 {
                     if (st.AddCourse == "")
@@ -111,13 +110,12 @@ namespace BurnabyWebReg
             } // try
             catch (Exception ex)
             {
-                //UpdateStatusBar(ex.Message); // 상태표시줄
+                //UpdateStatusBar(ex.Message);
             }
         }
 
         private void Form3_Load(object sender, EventArgs e)
-        {   
-            // 스레드
+        {             
             workerThread1 = new Thread(new ThreadStart(DoWork_CourseDetails));
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {
@@ -130,14 +128,14 @@ namespace BurnabyWebReg
         // Add
         private void button1_Click(object sender, EventArgs e)
         {
-            //생성자를 통한 form5로 데이터 보내기
+            // Send data to form5 via constructor
             Form5 form5 = new Form5();
             form5.Show();
 
-            //메서드를 이용한 form5 데이터 전송                
+            // Send form5 data using methods                
             form5.GetDataFromForm(st.Course, st.Barcode, st.Times, st.Dates, st.Aid, st.Cid);
 
-            // 현재 Form Close
+            // Current Form Close
             this.Close();
         }
 

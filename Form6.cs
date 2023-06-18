@@ -22,7 +22,7 @@ namespace BurnabyWebReg
         // View Full Purchase History
 
 
-        Thread workerThread1; // 스레드  
+        Thread workerThread1;
 
         CommonClass cc = new CommonClass(); // common class
         Strings st = new Strings(); // all string variable
@@ -39,7 +39,7 @@ namespace BurnabyWebReg
 
                 // View Full Purchase History
                 string historySource = cc.getBetween(st.Result, "id=\"history-detail\"", "id=\"footer\"");
-                string[] historyArr = Regex.Split(historySource, "</tr>"); // 배열로분리
+                string[] historyArr = Regex.Split(historySource, "</tr>");
 
                 foreach (string history in historyArr)
                 {
@@ -73,11 +73,9 @@ namespace BurnabyWebReg
                         st.ClientFee = cc.RemoveSpace(st.ClientFee);
 
                         if (st.ClientName != "")
-                        {
-                            //크로스스레드방지
+                        {                          
                             this.Invoke(new MethodInvoker(delegate ()
-                            {
-                                // DatagridView에 추가
+                            {                              
                                 dataGridView1.Rows.Add(st.ClientName, st.ClientCourseTitle, st.ClientType,
                                     st.ClientBarCode, st.ClientDateSpan, st.ClientFee);
                             }));  // invoke
@@ -95,8 +93,7 @@ namespace BurnabyWebReg
 
 
         private void Form6_Load(object sender, EventArgs e)
-        {
-            // 스레드
+        {          
             workerThread1 = new Thread(new ThreadStart(Dowork_HistoryDetails));
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {

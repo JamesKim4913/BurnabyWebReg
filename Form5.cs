@@ -27,7 +27,7 @@ namespace BurnabyWebReg
         // Cart
 
 
-        Thread workerThread1; // 스레드  
+        Thread workerThread1;   
 
         CommonClass cc = new CommonClass(); // common class
         Strings st = new Strings(); // all string variable
@@ -36,7 +36,7 @@ namespace BurnabyWebReg
 
 
 
-        // Form2에서부터 값을 받는 메소드
+        // Method for receiving values from Form2
         public void GetDataFromForm(string course, string barcode, string times, string dates, string aid, string cid)
         {
             st.Course = course;
@@ -46,13 +46,13 @@ namespace BurnabyWebReg
             st.Aid = aid;
             st.Cid = cid;
 
-            // 화면에 표시
+            // Display on screen
             DisplayControl();
         }
 
 
 
-        // 화면에 표시
+        // Display on screen
         private void DisplayControl()
         {  
             uc.changeControlText(label2, st.Barcode + " - " + st.Course);
@@ -60,26 +60,25 @@ namespace BurnabyWebReg
         }
 
 
-        // Add ComboBox 가족들 세팅 
+        // Add ComboBox - Family setting
         private void AddParticipant()
         {
             try
             {
-                // 콤보박스 초기화 및 데이터추가
-                //크로스스레드방지
+                // Initialize combo box and add data
+              
                 this.Invoke(new MethodInvoker(delegate ()
                 {
                     comboBox1.Items.Clear();
                     comboBox1.Items.Add("-Select a Participant-");
                 }));  // invoke
 
-                comboBox1.DisplayMember = "Display";  // 폼에서 보이는 데이터, 텍스트변경가능
-                comboBox1.ValueMember = "Value";  // 내부적으로 쓰일 데이터, 텍스트변경가능
+                comboBox1.DisplayMember = "Display";  // Data visible in form, text can be changed
+                comboBox1.ValueMember = "Value";  // Data to be used internally, text can be changed
 
                 // Get ClientID
                 foreach (KeyValuePair<string, string> item in SharedClient.ClientDic)
-                {
-                    //크로스스레드방지
+                {                   
                     this.Invoke(new MethodInvoker(delegate ()
                     {
                         st.ParticipantName = item.Key;
@@ -90,14 +89,14 @@ namespace BurnabyWebReg
                     }));  // invoke
                 }
 
-                // ClientID 가 없다면
+                // If you don't have a ClientID
                 int clientIDCount = SharedClient.ClientDic.Count;
 
                 if (clientIDCount == 0)
                 {
                     MessageBox.Show("Please log in first!");
 
-                    // Form1 폼으로 활성화 이동
+                    // Move Activation to Form1 Form
                     foreach (Form openForm in Application.OpenForms)
                     {
                         if (openForm.Name == "Form1")
@@ -107,14 +106,14 @@ namespace BurnabyWebReg
                         }
                     }
 
-                    // 현재 Form Close
+                    // Form Close
                     this.Close();
                 }
                 
             } // try
             catch (Exception ex)
             {
-                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); // 상태표시줄
+                uc.updateStatusBar(toolStripStatusLabel1, ex.Message);
             }
         }
 
@@ -134,22 +133,21 @@ namespace BurnabyWebReg
             {
                 this.Invoke(new MethodInvoker(delegate ()
                 {
-                    // 콤보박스 선택한 것의 Value 값
+                    // Value of combo box selected
                     st.ParticipantName = (comboBox1.SelectedItem as dynamic).Display;
-
-                    // 콤보박스 선택한 것의 Value 값
+                   
                     st.ParticipantID = (comboBox1.SelectedItem as dynamic).Value;
                 }));  // invoke 
 
-                // 장바구니에 담기 1 - 두번과정을 해야함
+                // Put in cart 1 - You have to do the process twice
                 st.GetData = "?Type=1&AddCourse=" + st.Aid + "~" + st.Cid + "~0~0~0~0~0&AjaxRequest=true&ajax=true";
                 st.Result = wc.GetSend(st.MyBasketUrl + st.GetData);
 
-                // 장바구니에 담기 2
+                // Put in cart 2
                 st.GetData = "?Type=1&AjaxRequest=true&ajax=true&ItemId=" + st.Cid;
-                st.Result = wc.GetSend(st.MyBasketUrl + st.GetData);                
-                
-                // 신청자 추가
+                st.Result = wc.GetSend(st.MyBasketUrl + st.GetData);
+
+                // Add Applicant
                 st.PostData = "ClientID=" + st.ParticipantID + "&cbxRegQuantity=1&FullPage=false&update=no&Checkout=&MyBasketPage=1&TransactionStarted=0&CurrentPageUrl=&OnClickScheduleCheckboxName=&ajax=true&OverlayRequest=true";
                 st.Result = wc.PostSend(st.PostData, st.MyBasketUrl + "?update=Update%20Basket&ClientID=" + st.ParticipantID);               
 
@@ -168,18 +166,16 @@ namespace BurnabyWebReg
 
                     uc.changeControlText(label5, st.CartGrandTotal);
                 }
-
-                //크로스스레드방지
+              
                 this.Invoke(new MethodInvoker(delegate ()
-                {
-                    // DataGridView에 추가
+                {                
                     dataGridView1.Rows.Add(st.ParticipantName, st.Course, st.Dates, st.Times, st.CartSubTotal, "Remove", st.ParticipantID);
                 }));  // invoke                         
 
             } // try
             catch (Exception ex)
             {
-                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); // 상태표시줄
+                uc.updateStatusBar(toolStripStatusLabel1, ex.Message);
             }
         }
 
@@ -203,7 +199,7 @@ namespace BurnabyWebReg
 
                 st.Result = wc.GetSend(st.MyBasketCheckoutUrl);
 
-                // "id=\"receipt-body\"" 문자가 없다면 Return
+                // Return if there is no "id=\"receipt-body\" character
                 if (!st.Result.Contains("id=\"receipt-body\""))
                 {
                     return;
@@ -344,7 +340,7 @@ namespace BurnabyWebReg
                     st.ReceiptNewAccountBalance = cc.RemoveSpace(st.ReceiptNewAccountBalance);
                 }
 
-                // 화면에 표시
+                // Display on screen
                 uc.changeControlText(label23, st.Receipt);
                 uc.changeControlText(label24, st.ReceiptIssued);
                 uc.changeControlText(label25, st.ReceiptUser);
@@ -366,7 +362,7 @@ namespace BurnabyWebReg
             } // try
             catch (Exception ex)
             {
-                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); // 상태표시줄
+                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); 
             }
         }
 
@@ -381,9 +377,8 @@ namespace BurnabyWebReg
                 // Select a Participant
                 MessageBox.Show("Select a Participant!");
                 return;
-            }            
-
-            // 스레드
+            } 
+          
             workerThread1 = new Thread(new ThreadStart(DoWork_AddCart));
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {
@@ -395,8 +390,7 @@ namespace BurnabyWebReg
 
         // Clear Cart
         private void button1_Click(object sender, EventArgs e)
-        {
-            // 스레드
+        {         
             workerThread1 = new Thread(new ThreadStart(DoWork_ClearCart));
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {
@@ -426,14 +420,13 @@ namespace BurnabyWebReg
             } // try
             catch (Exception ex)
             {
-                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); // 상태표시줄
+                uc.updateStatusBar(toolStripStatusLabel1, ex.Message); 
             }
         }
 
         // Checkout
         private void button3_Click(object sender, EventArgs e)
-        {
-            // 스레드
+        {          
             workerThread1 = new Thread(new ThreadStart(DoWork_Checkout));
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {
@@ -448,7 +441,7 @@ namespace BurnabyWebReg
         // DataGridView Click
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Remove 버튼 클릭시
+            // When you click the Remove button
             // check if the clicked cell is the DeleteButton and a valid row
             if (e.ColumnIndex == dataGridView1.Columns[5].Index && e.RowIndex >= 0)
             {

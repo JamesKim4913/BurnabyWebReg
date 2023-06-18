@@ -9,9 +9,9 @@ public class UIControl
 {
 
 
-    // 크로스스레드 에러 방지
+    // Cross-thread error prevention
 
-    // 상태 true/false
+    // status true/false
     private delegate void ControlStateChange(Control varControl, bool varState);
     public void changeControlStatus(Control varControl, bool varState)
     {
@@ -25,7 +25,7 @@ public class UIControl
         }
     }
 
-    // 텍스트박스나 레이블
+    // Text box or label
     private delegate void ControlTextChange(Control varControl, string varText);
     public void changeControlText(Control varControl, string varText)
     {
@@ -39,8 +39,8 @@ public class UIControl
         }
     }
 
-    // 상태표시줄
-    // 사용예제 uc.updateStatusBar(toolStripStatusLabel1, ex.Message); // 상태표시줄
+    // Status bar
+    // uc.updateStatusBar(toolStripStatusLabel1, ex.Message);
     private delegate void ControlStatusBarChange(ToolStripStatusLabel label, string text);
     public void updateStatusBar(ToolStripStatusLabel label, string text)
     {
@@ -56,17 +56,6 @@ public class UIControl
     }
 
 
-
-    /*
-    //크로스스레드방지
-    // 쓰레드에서 작업할때 화면 UI에 접근할때 사용함
-    // 예를들어 리스트뷰에 추가하거나 텍스트박스에 값 변경할때 등에 사용함
-    this.Invoke(new MethodInvoker(delegate ()
-    {
-        // 리스트뷰에 추가  
-        // 이곳에 작업추가                                
-    }));  // invoke
-    */
 
 
 }

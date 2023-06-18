@@ -23,7 +23,7 @@ namespace BurnabyWebReg
         // Show Courses
 
 
-        Thread workerThread1; // 스레드  
+        Thread workerThread1;
 
         CommonClass cc = new CommonClass(); // common class
         Strings st = new Strings(); // all string variable
@@ -32,7 +32,7 @@ namespace BurnabyWebReg
 
 
 
-        // Form1에서부터 값을 받는 메소드
+        // Method for receiving values from Form1
         public void GetDataFromForm(string data)
         {
             st.Aid = data;            
@@ -56,7 +56,7 @@ namespace BurnabyWebReg
                 st.Result = wc.GetSend(url); 
 
                 // Result               
-                string[] coursesArr = Regex.Split(st.Result, "</tr>"); // 배열로분리 
+                string[] coursesArr = Regex.Split(st.Result, "</tr>"); 
 
                 foreach (string course in coursesArr)
                 {
@@ -108,12 +108,12 @@ namespace BurnabyWebReg
                             st.ButtonName = "Not Yet";
                         }                       
 
-                        st.Cid = cc.getBetween(course, "cid=", "\"");                        
+                        st.Cid = cc.getBetween(course, "cid=", "\"");
 
-                        //크로스스레드방지
+                        // Cross-thread protection
                         this.Invoke(new MethodInvoker(delegate ()
                         {
-                            // DataGridView에 추가
+                            // add DataGridView
                             dataGridView1.Rows.Add(st.Course, st.Barcode, st.Days, st.Times,
                                 st.Dates, st.Complex, st.Sessions, st.SpacesAvail, "View Details", st.ButtonName, st.Cid);
                         }));  // invoke
@@ -121,7 +121,7 @@ namespace BurnabyWebReg
                 } // foreach
 
 
-                // 전체 레코드가 10 이상이면 더 작업함
+                // Work more if the entire record is greater than or equal to or greater
                 if (st.Result.Contains("<records-total>"))
                 {
                     st.RecordsTotal = cc.getBetween(st.Result, "<records-total>", "</records-total>");
@@ -136,7 +136,7 @@ namespace BurnabyWebReg
             } // try
             catch (Exception ex)
             {
-                //UpdateStatusBar(ex.Message); // 상태표시줄
+                //UpdateStatusBar(ex.Message); 
             }
         }
 
@@ -151,7 +151,7 @@ namespace BurnabyWebReg
                 st.Result = wc.GetSend(url);
 
                 // Result               
-                string[] coursesArr = Regex.Split(st.Result, "</tr>"); // 배열로분리 
+                string[] coursesArr = Regex.Split(st.Result, "</tr>");  
 
                 foreach (string course in coursesArr)
                 {
@@ -205,11 +205,9 @@ namespace BurnabyWebReg
                         }
 
                         st.Cid = cc.getBetween(course, "cid=", "\"");
-
-                        //크로스스레드방지
+                       
                         this.Invoke(new MethodInvoker(delegate ()
-                        {
-                            // DataGridView에 추가
+                        {                          
                             dataGridView1.Rows.Add(st.Course, st.Barcode, st.Days, st.Times,
                                 st.Dates, st.Complex, st.Sessions, st.SpacesAvail, "View Details", st.ButtonName, st.Cid);
                         }));  // invoke
@@ -219,14 +217,13 @@ namespace BurnabyWebReg
             } // try
             catch (Exception ex)
             {
-                //UpdateStatusBar(ex.Message); // 상태표시줄
+                //UpdateStatusBar(ex.Message);
             }
         }
 
 
         private void Form2_Load(object sender, EventArgs e)
-        {
-            // 스레드
+        {           
             workerThread1 = new Thread(new ThreadStart(DoWork_ShowCourses));           
             if ((workerThread1.ThreadState & ThreadState.Unstarted) == ThreadState.Unstarted)
             {
@@ -238,21 +235,21 @@ namespace BurnabyWebReg
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // View Details 버튼 클릭시
+            // When clicking the View Details button
             if (e.ColumnIndex == dataGridView1.Columns[8].Index)
             {
                 st.Cid = dataGridView1.Rows[e.RowIndex].Cells[10].Value.ToString();               
                 st.Barcode = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                //생성자를 통한 form4로 데이터 보내기
+                // Send data to form4 via constructor
                 Form4 form4 = new Form4();
                 form4.Show();
 
-                //메서드를 이용한 form4로 데이터 전송                
+                // Send data to form4 using method                
                 form4.GetDataFromForm(st.Barcode, st.Aid, st.Cid);
             }
 
-            // Add 버튼 클릭시
+            // When clicking the Add button
             if (e.ColumnIndex == dataGridView1.Columns[9].Index)
             {
                 st.Cid = dataGridView1.Rows[e.RowIndex].Cells[10].Value.ToString();
@@ -268,11 +265,11 @@ namespace BurnabyWebReg
                     return;
                 }
 
-                //생성자를 통한 form5로 데이터 보내기
+                // Send data to form5 via constructor
                 Form5 form5 = new Form5();
                 form5.Show();
 
-                //메서드를 이용한 form5 데이터 전송                
+                // Send form5 data using methods                
                 form5.GetDataFromForm(st.Course, st.Barcode, st.Times, st.Dates, st.Aid, st.Cid);                
             } 
         }

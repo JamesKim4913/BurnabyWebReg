@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;  // 파일관련
+using System.IO;  // control file
 using System.Net;
 using System.Web;    // add reference  System.Web
-using System.Text.RegularExpressions;  // 정규표현식
+using System.Text.RegularExpressions;  // regular expression
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Specialized;
@@ -16,7 +16,7 @@ using System.Net.Http;
 
 class CommonClass
 {
-    // 인터넷띄우기
+    // open browser internet
     public void OpenBrowser(string openurl, int openwidth, int openheight)
     {
         StringBuilder query = new StringBuilder(openurl);
@@ -37,7 +37,7 @@ class CommonClass
     }
 
 
-    // 소스전체에서 일부 추출
+    // Extract some from the entire source
     public string getBetween(string strSource, string strStart, string strEnd)
     {
         int Start, End;
@@ -54,9 +54,9 @@ class CommonClass
     }
 
 
-      
 
-    // 특수문자 변경
+
+    // Change Special Characters
     public string ReplaceSpecialString(string str)
     {
         Dictionary<string, string> dicSpStr = new Dictionary<string, string>
@@ -105,11 +105,11 @@ class CommonClass
 
     public string RemoveSpecial(string content)
     {
-        content = Regex.Replace(content, @"[^\p{L}\p{M}p{N}]+", " "); // 유니코드 이모티콘 제거       
-        content = remove_html_tag(content);  // 태그제거
-        content = RemoveSpace(content);  // 화이트 스페이스 제거   
-        content = Regex.Replace(content, @"[^0-9a-zA-Zㄱ-힗]+", " ", RegexOptions.Singleline);  // 특수문자 제거 
-        content = Regex.Replace(content, @"[^a-zA-Z0-9가-힣]", " ", RegexOptions.Singleline);  // 특수문자 제거 
+        content = Regex.Replace(content, @"[^\p{L}\p{M}p{N}]+", " "); // Remove Unicode Emoticons       
+        content = remove_html_tag(content);  // Remove tags
+        content = RemoveSpace(content);  // Remove White Space   
+        content = Regex.Replace(content, @"[^0-9a-zA-Zㄱ-힗]+", " ", RegexOptions.Singleline);  // Remove Special Characters
+        content = Regex.Replace(content, @"[^a-zA-Z0-9가-힣]", " ", RegexOptions.Singleline);  
         content = Regex.Replace(content, "\n", " ", RegexOptions.IgnoreCase);
         content = content.Replace("n", " ");
         content = content.Trim();
@@ -117,23 +117,21 @@ class CommonClass
     }
 
 
-    // 태그제거
+    // Remove html tags
     public string remove_html_tag(string html_str)
-    {
-        // 정규표현을 이용한 HTML태그 삭제
+    {       
         return Regex.Replace(html_str, @"[<][a-z|A-Z|/](.|\n)*?[>]", "");
     }
 
-    // 태그제거후 스페이스로 한칸 띄워줌
+    // Remove the tag and float it to the space
     public string remove_html_tag2(string html_str)
-    {
-        // 정규표현을 이용한 HTML태그 삭제
+    {      
         return Regex.Replace(html_str, @"[<][a-z|A-Z|/](.|\n)*?[>]", " ");
     }
 
 
 
-    // 랜덤숫자 구하기
+    // Get random numbers
     public int Get_Randomnum(Random random, int minnum, int maxnum)
     {
         int RandomNumber = 0;
@@ -146,13 +144,13 @@ class CommonClass
 
 
 
-    // txt 파일 저장
+    // Save txt file
     public void Save_Txt(string filename, string content)
     {
         try
         {
-            string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로 
+            string myexePath = Application.StartupPath;  // Folder with executable files
+            string pathfilename = myexePath + @"\" + filename + @".txt";  // File name folder path 
 
             //Pass the filepath and filename to the StreamWriter Constructor
             // StreamWriter sw = new StreamWriter(pathfilename, false, Encoding.GetEncoding("EUC-KR"));
@@ -166,30 +164,29 @@ class CommonClass
         }
         catch (Exception ex)
         {
-            //UpdateStatusBar(ex.Message); // 상태표시줄
+            //UpdateStatusBar(ex.Message);
         }
     }
 
-    // txt 파일 읽기
+    // Read txt file
     public string Read_Txt(string filename)
     {
         string content = string.Empty;
         string strFileLine = string.Empty;
         try
         {
-            string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로
+            string myexePath = Application.StartupPath; 
+            string pathfilename = myexePath + @"\" + filename + @".txt";
 
-            if (File.Exists(pathfilename)) // 파일이 존재하면
-            {
-                // 텍스트 파일 읽어와서  
+            if (File.Exists(pathfilename)) // If the file exists
+            {               
                 // StreamReader SRead = new StreamReader(pathfilename, System.Text.Encoding.GetEncoding("ks_c_5601-1987"));
                 StreamReader SRead = new StreamReader(pathfilename, Encoding.Default);
 
                 while ((!SRead.EndOfStream))  // (strFileLine = SRead.ReadLine() != string.Empty))
                 {
-                    strFileLine = SRead.ReadLine();  // 한줄씩 읽음
-                    if ((strFileLine != string.Empty))  // 데이터가 있으면
+                    strFileLine = SRead.ReadLine();  // reading line by line
+                    if ((strFileLine != string.Empty)) 
                     {
                         content = content + strFileLine + Environment.NewLine;
                     }  // if strFileLine
@@ -200,23 +197,25 @@ class CommonClass
         } // try
         catch (Exception ex)
         {
-            // UpdateStatusBar(ex.Message); // 상태표시줄
+            // UpdateStatusBar(ex.Message);
         }
         return content;
     }
 
 
-    // txt 파일 저장 기존파일에 이어서
+    // Save txt file Following the existing file
     public void Save_Txt_Conti(string filename, string content)
     {
         try
         {
-            string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로 
+            string myexePath = Application.StartupPath; 
+            string pathfilename = myexePath + @"\" + filename + @".txt";
 
             //Pass the filepath and filename to the StreamWriter Constructor
             // StreamWriter sw = new StreamWriter(pathfilename, true, Encoding.GetEncoding("EUC-KR"));
-            StreamWriter sw = new StreamWriter(pathfilename, true, Encoding.Default);  // 중간에 옵션을 true 해주면 기존파일에 이어서 추가됨
+
+            // If the option is true in the middle, it will be added to the existing file
+            StreamWriter sw = new StreamWriter(pathfilename, true, Encoding.Default);  
 
             //Write a line of text
             sw.WriteLine(content);
@@ -226,64 +225,45 @@ class CommonClass
         }
         catch (Exception ex)
         {
-            // UpdateStatusBar(ex.Message); // 상태표시줄
+            // UpdateStatusBar(ex.Message); 
         }
     }
 
 
 
-    // txt 파일 읽기
+    // Read txt file
     public string ReadAll_Txt(string filename)
     {
         string content = string.Empty;
         string strFileLine = string.Empty;
         try
         {
-            string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로
+            string myexePath = Application.StartupPath; 
+            string pathfilename = myexePath + @"\" + filename + @".txt"; 
 
-            if (File.Exists(pathfilename)) // 파일이 존재하면
-            {
-                // 텍스트 파일 읽어와서  
+            if (File.Exists(pathfilename)) 
+            {              
                 // StreamReader SRead = new StreamReader(pathfilename, System.Text.Encoding.GetEncoding("ks_c_5601-1987"));
                 StreamReader SRead = new StreamReader(pathfilename, Encoding.Default);
 
                 content = SRead.ReadToEnd();
-
-                // 한줄씩 읽기
-                /*
-                while ((!SRead.EndOfStream))  // (strFileLine = SRead.ReadLine() != string.Empty))
-                {
-                    strFileLine = SRead.ReadLine();  // 한줄씩 읽음
-                    if ((strFileLine != string.Empty))  // 데이터가 있으면
-                    {
-                        content = content + strFileLine + Environment.NewLine;
-                    }  // if strFileLine
-                } // while
-                */
-                // 한줄씩읽기 끝
 
                 SRead.Close();
             }
         } // try
         catch (Exception ex)
         {
-            //UpdateStatusBar(ex.Message); // 상태표시줄
+            //UpdateStatusBar(ex.Message);
         }
         return content;
     }
 
 
-    // txt 파일 저장 풀경로로 기존파일에 이어서
+    // Save txt file to full path, following existing file
     public void Save_fullpathTxt_Conti(string pathfilename, string content)
     {
         try
-        {
-            // string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            // string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로 
-
-            //Pass the filepath and filename to the StreamWriter Constructor
-            // StreamWriter sw = new StreamWriter(pathfilename, true, Encoding.GetEncoding("EUC-KR"));
+        {           
             StreamWriter sw = new StreamWriter(pathfilename, true, Encoding.Default);
 
             //Write a line of text
@@ -294,21 +274,16 @@ class CommonClass
         }
         catch (Exception ex)
         {
-            //UpdateStatusBar(ex.Message); // 상태표시줄
+            //UpdateStatusBar(ex.Message);
         }
     }
 
 
-    // txt 파일 저장 풀경로로
+    // Save txt file to full path
     public void Save_fullpathTxt(string pathfilename, string content)
     {
         try
-        {
-            // string myexePath = Application.StartupPath;  // 실행파일이 있는 폴더
-            // string pathfilename = myexePath + @"\" + filename + @".txt";  // 파일명폴더경로 
-
-            //Pass the filepath and filename to the StreamWriter Constructor
-            // StreamWriter sw = new StreamWriter(pathfilename, false, Encoding.GetEncoding("EUC-KR"));
+        {           
             StreamWriter sw = new StreamWriter(pathfilename, false, Encoding.Default);
 
             //Write a line of text
@@ -319,45 +294,31 @@ class CommonClass
         }
         catch (Exception ex)
         {
-            //UpdateStatusBar(ex.Message); // 상태표시줄
+            //UpdateStatusBar(ex.Message);
         }
     }
 
 
-    // txt 파일 읽기
+    // Read txt file
     public string Read_fullpathTxt(string pathfilename)
     {
         string content = string.Empty;
         string strFileLine = string.Empty;
         try
         {
-            if (File.Exists(pathfilename)) // 파일이 존재하면
-            {
-                // 텍스트 파일 읽어와서  
+            if (File.Exists(pathfilename)) 
+            {               
                 // StreamReader SRead = new StreamReader(pathfilename, System.Text.Encoding.GetEncoding("ks_c_5601-1987"));
                 StreamReader SRead = new StreamReader(pathfilename, Encoding.Default);
 
-                content = SRead.ReadToEnd();
-
-                // 한줄씩 읽기
-                /*
-                while ((!SRead.EndOfStream))  // (strFileLine = SRead.ReadLine() != string.Empty))
-                {
-                    strFileLine = SRead.ReadLine();  // 한줄씩 읽음
-                    if ((strFileLine != string.Empty))  // 데이터가 있으면
-                    {
-                        content = content + strFileLine + Environment.NewLine;
-                    }  // if strFileLine
-                } // while
-                */
-                // 한줄씩읽기 끝
+                content = SRead.ReadToEnd();               
 
                 SRead.Close();
             }
         } // try
         catch (Exception ex)
         {
-            //UpdateStatusBar(ex.Message); // 상태표시줄
+            //UpdateStatusBar(ex.Message); 
         }
         return content;
     }
